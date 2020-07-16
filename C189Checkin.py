@@ -37,16 +37,21 @@ def main():
     response = s.get(url,headers=headers)
     if ("errorCode" in response.text):
         print(response.text)
+        send_qq_msg(response.text)
     else:
         description = response.json()['description']
         print(f"抽奖获得{description}")
+        send_qq_msg(f"抽奖获得{description}")
     response = s.get(url2,headers=headers)
     if ("errorCode" in response.text):
         print(response.text)
+        send_qq_msg(response.text)
     else:
         description = response.json()['description']
         print(f"抽奖获得{description}")
-
+        send_qq_msg(f"抽奖获得{description}")
+    
+    
 BI_RM = list("0123456789abcdefghijklmnopqrstuvwxyz")
 def int2char(a):
     return BI_RM[a]
@@ -126,7 +131,10 @@ def login(username, password):
     redirect_url = r.json()['toUrl']
     r = s.get(redirect_url)
     return s
-    
+
+def send_qq_msg(msg):
+    qq_msg = "https://qmsg.zendee.cn/send/77fb7a47b1ed08c25c1c60cd415286ed?msg={}".format(msg)
+    requests.get(qq_msg)
 
 if __name__ == "__main__":
     main()
